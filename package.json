@@ -1,0 +1,29 @@
+{
+  "name": "sol",
+  "version": "1.0.0",
+  "description": "Minimal Hardhat Solidity environment",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test test/transaction-report.js test/MyToken.test.js",
+    "deploy": "hardhat run scripts/deploy.js --network hardhat",
+    "bootstrap": "powershell -ExecutionPolicy Bypass -File ./bootstrap.ps1",
+    "local-test": "hardhat test test/transaction-report.js test/MyToken.test.js",
+    "node": "hardhat node"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
+    "@nomicfoundation/hardhat-ethers": "^3.1.2",
+    "@vitejs/plugin-react": "^5.1.1",
+    "chai": "^4.3.7",
+    "ethers": "^6.11.1",
+    "hardhat": "^2.27.0",
+    "solc": "^0.8.19"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@uniswap/v2-core": "^1.0.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "dotenv": "^17.2.3"
+  }
+}
