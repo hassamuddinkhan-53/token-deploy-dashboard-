@@ -5,6 +5,7 @@ import TransferForm from '../components/TransferForm';
 import TokenMeta from '../components/TokenMeta';
 import WarningBanner from '../components/WarningBanner';
 import { useWeb3 } from '../context/Web3Context';
+import erc20Abi from '../abis/erc20Abi.json';
 export default function Account() {
   const { provider, signer, account, isConnected, addTransaction, isSepoliaNetwork } = useWeb3();
   const [onSepolia, setOnSepolia] = useState(true);
@@ -40,82 +41,88 @@ export default function Account() {
       let stored = [];
       try {
         stored = JSON.parse(localStorage.getItem('accounts') || '[]');
-      } catch {}
+      } catch { }
       const all = Array.from(new Set([account, ...stored]));
       setAllAccounts(all);
     }
   }, [account]);
+
+  async function fetchAllTokenData() {
+    if (!provider || !allAccounts.length) return;
+    // ...existing code...
+    let tks = [];
+    try {
+      tks = JSON.parse(localStorage.getItem('deployed_tokens_v1') || '[]');
+    } catch { }
+    const liveTokens = tks; // include ETH
+    const meta = {};
+    for (const t of tks) {
+      try {
+        const c = new Contract(t.address, erc20Abi, provider);
+        const [name, symbol, decimals, totalSupply, owner] = await Promise.all([
+          c.name(),
+          c.symbol(),
+          c.decimals(),
+          c.totalSupply(),
+          c.owner ? c.owner() : null
+        ]);
+        const nameStr = typeof name === 'string' ? name : toUtf8String(name);
+        const symbolStr = typeof symbol === 'string' ? symbol : toUtf8String(symbol);
+        const ownerAddr = (owner || t.owner || t.admin || '').toLowerCase();
+        // Only include tokens where the connected account is the owner/admin
+        if (account && ownerAddr === account.toLowerCase()) {
+          meta[t.address] = {
+            name: nameStr,
+            symbol: symbolStr,
+            decimals: Number(decimals),
+            totalSupply: formatUnits(totalSupply, decimals),
+            owner: owner || ''
+          };
+          liveTokens.push({ address: t.address, symbol: symbolStr, name: nameStr });
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+    setTokenMeta(meta);
+    setTokens(liveTokens);
+
+    // Fetch balances for all accounts and tokens
+    const ethBals = {};
+    const tokenBals = {};
+    for (const acc of allAccounts) {
+      // ETH
+      try {
+        const bal = await provider.getBalance(acc);
+        ethBals[acc] = formatEther(bal);
+      } catch {
+        ethBals[acc] = '0';
+      }
+      // Tokens
+      tokenBals[acc] = {};
+      for (const t of liveTokens) {
+        try {
+          const contract = new Contract(t.address, erc20Abi, provider);
+          const decimals = meta[t.address]?.decimals || 18;
+          const bal = await contract.balanceOf(acc);
+          tokenBals[acc][t.address] = formatUnits(bal, decimals);
+        } catch {
+          tokenBals[acc][t.address] = '0';
+        }
+      }
+    }
+    setEthBalances(ethBals);
+    setBalances(tokenBals);
+  }
+
   useEffect(() => {
     if (!isConnected) return;
-    async function fetchAllTokenData() {
-      if (!provider || !allAccounts.length) return;
-      // ...existing code...
-      let tks = [];
-      try {
-        tks = JSON.parse(localStorage.getItem('deployed_tokens_v1') || '[]');
-      } catch {}
-      const liveTokens = tks; // include ETH
-      const meta = {};
-      for (const t of tks) {
-        try {
-          const c = new Contract(t.address, erc20Abi, provider);
-          const [name, symbol, decimals, totalSupply, owner] = await Promise.all([
-            c.name(),
-            c.symbol(),
-            c.decimals(),
-            c.totalSupply(),
-            c.owner ? c.owner() : null
-          ]);
-          const nameStr = typeof name === 'string' ? name : toUtf8String(name);
-          const symbolStr = typeof symbol === 'string' ? symbol : toUtf8String(symbol);
-          const ownerAddr = (owner || t.owner || t.admin || '').toLowerCase();
-          // Only include tokens where the connected account is the owner/admin
-          if (account && ownerAddr === account.toLowerCase()) {
-            meta[t.address] = {
-              name: nameStr,
-              symbol: symbolStr,
-              decimals: Number(decimals),
-              totalSupply: formatUnits(totalSupply, decimals),
-              owner: owner || ''
-            };
-            liveTokens.push({ address: t.address, symbol: symbolStr, name: nameStr });
-          }
-        } catch (e) {
-          continue;
-        }
-      }
-      setTokenMeta(meta);
-      setTokens(liveTokens);
-
-      // Fetch balances for all accounts and tokens
-      const ethBals = {};
-      const tokenBals = {};
-      for (const acc of allAccounts) {
-        // ETH
-        try {
-          const bal = await provider.getBalance(acc);
-          ethBals[acc] = formatEther(bal);
-        } catch {
-          ethBals[acc] = '0';
-        }
-        // Tokens
-        tokenBals[acc] = {};
-        for (const t of liveTokens) {
-          try {
-            const contract = new Contract(t.address, erc20Abi, provider);
-            const decimals = meta[t.address]?.decimals || 18;
-            const bal = await contract.balanceOf(acc);
-            tokenBals[acc][t.address] = formatUnits(bal, decimals);
-          } catch {
-            tokenBals[acc][t.address] = '0';
-          }
-        }
-      }
-      setEthBalances(ethBals);
-      setBalances(tokenBals);
-    }
     fetchAllTokenData();
   }, [provider, allAccounts, isConnected]);
+
+  const updateBalances = async () => {
+    await fetchAllTokenData();
+  };
 
   // Modular async sendToken function
   async function sendToken() {
