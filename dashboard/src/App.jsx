@@ -28,9 +28,11 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      <Navbar onNavigate={setRoute} />
-      <main className="p-6">{renderRoute()}</main>
+    <div className="min-h-screen text-slate-50 font-sans selection:bg-primary-500/30">
+      <Navbar onNavigate={setRoute} currentRoute={route} />
+      <main className="container mx-auto px-4 py-8 max-w-7xl animate-fade-in">
+        {renderRoute()}
+      </main>
     </div>
   )
 }

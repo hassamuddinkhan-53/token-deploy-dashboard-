@@ -1,15 +1,48 @@
 import React from 'react';
+import { Wallet, Coins } from 'lucide-react';
 
 export default function TokenBalance({ account, ethBalance, tokens, balances, tokenMeta }) {
   return (
-    <div className="bg-white rounded-xl shadow p-4 border border-blue-100 transition-all duration-300">
-      <div className="mb-2 font-mono text-xs text-gray-500">{account}</div>
-      <div className="mb-2"><span className="font-bold">ETH:</span> {ethBalance || 0}</div>
-      {tokens.map((token) => (
-        <div key={token.address} className="mb-1">
-          <span className="font-bold">{tokenMeta[token.address]?.symbol || ''}:</span> {(balances && balances[token.address]) || 0}
+    <div className="glass-panel rounded-2xl p-6 h-full">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-3 rounded-xl bg-primary-500/20 text-primary-400">
+          <Wallet size={24} />
         </div>
-      ))}
+        <div>
+          <h3 className="text-lg font-bold text-white">Wallet Balance</h3>
+          <div className="text-xs font-mono text-slate-400 bg-slate-800/50 px-2 py-1 rounded mt-1 break-all">
+            {account}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+              <span className="text-xs font-bold text-slate-300">ETH</span>
+            </div>
+            <span className="font-medium text-slate-200">Ethereum</span>
+          </div>
+          <span className="font-bold text-white">{parseFloat(ethBalance || '0').toFixed(4)}</span>
+        </div>
+
+        {tokens.map((token) => (
+          <div key={token.address} className="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
+                <span className="text-[10px] font-bold text-white">
+                  {(tokenMeta[token.address]?.symbol || 'TK').slice(0, 2)}
+                </span>
+              </div>
+              <span className="font-medium text-slate-200">{tokenMeta[token.address]?.symbol || 'Token'}</span>
+            </div>
+            <span className="font-bold text-white">
+              {parseFloat((balances && balances[token.address]) || '0').toFixed(4)}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { ethers } from 'ethers'
-import mockErc20Artifact from '../../../artifacts/contracts/MockERC20.sol/MockERC20.json'
+import mockErc20Artifact from '../artifacts/MockERC20.json'
 
 export default function DeployToken() {
   const [name, setName] = useState('MyToken')
@@ -191,57 +191,120 @@ export default function DeployToken() {
   }, [])
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Deploy Token</h2>
-      <form onSubmit={handleDeploy} className="max-w-xl bg-white p-6 rounded shadow">
-        <label className="block mb-2">
-          <div className="text-sm text-slate-600">Name</div>
-          <input value={name} onChange={e => setName(e.target.value)} className="w-full border rounded px-3 py-2 mt-1" />
-        </label>
-        <label className="block mb-2">
-          <div className="text-sm text-slate-600">Symbol</div>
-          <input value={symbol} onChange={e => setSymbol(e.target.value)} className="w-full border rounded px-3 py-2 mt-1" />
-        </label>
-        <label className="block mb-4">
-          <div className="text-sm text-slate-600">Initial Supply</div>
-          <input value={supply} onChange={e => setSupply(e.target.value)} className="w-full border rounded px-3 py-2 mt-1" />
-        </label>
+    <div className="max-w-4xl mx-auto">
+      {/* Page Header - Updated with white text for visibility */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-white mb-2">Deploy Token</h1>
+        <p className="text-slate-400">Create a new ERC-20 token on the Sepolia testnet</p>
+      </div>
 
-        <div className="flex items-center space-x-2">
-          <button className="px-4 py-2 bg-indigo-600 text-white rounded">Deploy</button>
-          <div className="text-sm text-slate-500">{message}</div>
+      {/* Deploy Form - Updated with glass panel and better contrast */}
+      <form onSubmit={handleDeploy} className="glass-panel rounded-2xl p-8 mb-6">
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-semibold text-slate-300 mb-2">Token Name</label>
+            <input
+              value={name}
+              onChange={e => setName(e.target.value)}
+              className="glass-input w-full px-4 py-3 rounded-xl text-white placeholder-slate-600"
+              placeholder="e.g., My Token"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-300 mb-2">Token Symbol</label>
+            <input
+              value={symbol}
+              onChange={e => setSymbol(e.target.value)}
+              className="glass-input w-full px-4 py-3 rounded-xl text-white placeholder-slate-600"
+              placeholder="e.g., MTK"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-300 mb-2">Initial Supply</label>
+            <input
+              value={supply}
+              onChange={e => setSupply(e.target.value)}
+              className="glass-input w-full px-4 py-3 rounded-xl text-white placeholder-slate-600"
+              placeholder="e.g., 1000000"
+            />
+          </div>
+
+          <div className="flex items-center gap-4 pt-4">
+            <button className="glass-button px-6 py-3 rounded-xl font-bold flex-shrink-0">
+              Deploy Token
+            </button>
+            {message && (
+              <div className="text-sm text-slate-300 bg-slate-800/50 px-4 py-2 rounded-lg">{message}</div>
+            )}
+          </div>
         </div>
       </form>
+
+      {/* Deployment Success Card - Updated with better visibility */}
       {contractAddress && (
-        <div className="mt-4 p-4 bg-green-50 rounded">
-          <div className="text-green-700 font-semibold">
-            Contract Address: <a
-              href={`https://${networkName === 'sepolia' ? 'sepolia.' : networkName === 'goerli' ? 'goerli.' : ''}etherscan.io/address/${contractAddress}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
-              {contractAddress}
-            </a>
+        <div className="glass-panel rounded-2xl p-6 border-l-4 border-green-500 animate-fade-in">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <h3 className="text-lg font-bold text-white">Deployment Successful!</h3>
           </div>
-          <div className="text-green-700 font-semibold">
-            Tx Hash: <a
-              href={`https://${networkName === 'sepolia' ? 'sepolia.' : networkName === 'goerli' ? 'goerli.' : ''}etherscan.io/tx/${txHash}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
-              {txHash}
-            </a>
-          </div>
-          <div className="mt-2 text-sm text-blue-900">
-            <div>Token Name: <span className="font-mono">{tokenName}</span></div>
-            <div>Symbol: <span className="font-mono">{tokenSymbol}</span></div>
-            <div>Decimals: <span className="font-mono">{tokenDecimals}</span></div>
-            <div>Total Supply: <span className="font-mono">{tokenTotalSupply}</span></div>
-            <div>Owner: <span className="font-mono">{tokenOwner}</span></div>
-            <div>Your ETH Balance: <span className="font-mono">{ethBalance}</span></div>
-            <div>Your Token Balance: <span className="font-mono">{tokenBalance}</span></div>
+
+          <div className="space-y-3">
+            <div>
+              <span className="text-xs text-slate-400 uppercase tracking-wider">Contract Address</span>
+              <a
+                href={`https://${networkName === 'sepolia' ? 'sepolia.' : networkName === 'goerli' ? 'goerli.' : ''}etherscan.io/address/${contractAddress}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-primary-400 hover:text-primary-300 font-mono text-sm mt-1 break-all underline"
+              >
+                {contractAddress}
+              </a>
+            </div>
+
+            <div>
+              <span className="text-xs text-slate-400 uppercase tracking-wider">Transaction Hash</span>
+              <a
+                href={`https://${networkName === 'sepolia' ? 'sepolia.' : networkName === 'goerli' ? 'goerli.' : ''}etherscan.io/tx/${txHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-primary-400 hover:text-primary-300 font-mono text-sm mt-1 break-all underline"
+              >
+                {txHash}
+              </a>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-slate-700 grid grid-cols-2 gap-4">
+              <div className="bg-slate-800/50 p-3 rounded-lg">
+                <span className="text-xs text-slate-400 block mb-1">Token Name</span>
+                <span className="text-white font-medium">{tokenName}</span>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg">
+                <span className="text-xs text-slate-400 block mb-1">Symbol</span>
+                <span className="text-white font-medium">{tokenSymbol}</span>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg">
+                <span className="text-xs text-slate-400 block mb-1">Decimals</span>
+                <span className="text-white font-medium">{tokenDecimals}</span>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg">
+                <span className="text-xs text-slate-400 block mb-1">Total Supply</span>
+                <span className="text-white font-medium">{tokenTotalSupply}</span>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg">
+                <span className="text-xs text-slate-400 block mb-1">Owner</span>
+                <span className="text-white font-medium font-mono text-xs break-all">{tokenOwner}</span>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg">
+                <span className="text-xs text-slate-400 block mb-1">ETH Balance</span>
+                <span className="text-white font-medium">{ethBalance}</span>
+              </div>
+              <div className="bg-slate-800/50 p-3 rounded-lg col-span-2">
+                <span className="text-xs text-slate-400 block mb-1">Your Token Balance</span>
+                <span className="text-white font-medium">{tokenBalance}</span>
+              </div>
+            </div>
           </div>
         </div>
       )}

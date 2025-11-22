@@ -1,0 +1,62 @@
+[
+  {
+    "pair": "lol-mmm",
+    "pairAddress": "0x2771A8b33E95b3bE5Ca014e3FC6B51dEb93AFB5c",
+    "status": "CORRECT",
+    "reserves": {
+      "lol": "2000.0",
+      "mmm": "2000.0"
+    },
+    "expected": "2000.0"
+  },
+  {
+    "pair": "lol-jii",
+    "pairAddress": "0x7d472535c46f655d5A5856B00c10F5650BD83E00",
+    "status": "CORRECT",
+    "reserves": {
+      "lol": "2000.0",
+      "jii": "2000.0"
+    },
+    "expected": "2000.0"
+  },
+  {
+    "pair": "lol-MTK",
+    "pairAddress": "0xcC4C150169fb39ab3Eae84B4Ad0c6aCcaFFC6890",
+    "status": "CORRECT",
+    "reserves": {
+      "lol": "2000.0",
+      "MTK": "2000.0"
+    },
+    "expected": "2000.0"
+  },
+  {
+    "pair": "mmm-jii",
+    "pairAddress": "0x0EC8F626478129F75bdCD852fe69BD902F8285AB",
+    "status": "CORRECT",
+    "reserves": {
+      "mmm": "2000.0",
+      "jii": "2000.0"
+    },
+    "expected": "2000.0"
+  },
+  {
+    "pair": "mmm-MTK",
+    "pairAddress": "0x8cbB0306555Ca0702Db9536B1226DfDB725c9A9f",
+    "status": "CORRECT",
+    "reserves": {
+      "mmm": "2000.0",
+      "MTK": "2000.0"
+    },
+    "expected": "2000.0"
+  },
+  {
+    "pair": "jii-MTK",
+    "pairAddress": "0x47fECd4F7c1905E559c09b5f561cb1b50fA669aa",
+    "status": "CORRECT",
+    "reserves": {
+      "jii": "2000.0",
+      "MTK": "2000.0"
+    },
+    "expected": "2000.0"
+  }
+]

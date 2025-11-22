@@ -1,0 +1,21 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[1m[31mCompilerError:[39m[22m Stack too deep. Try compiling with `--via-ir` (cli) or the equivalent `viaIR: true` (standard JSON) while enabling the optimizer. Otherwise, try removing local variables.
+  --> contracts/UniswapStyleRouter.sol:93:35:
+   |
+93 |         uint256 amountInWithFee = amountIn * 997;
+   |                                   ^^^^^^^^
+
+
+[31m[1mError[22m[39m [31m[1mHH600:[22m[39m Compilation failed
+
+HardhatError: HH600: Compilation failed
+    at SimpleTaskDefinition.action (E:\mycryptoproject\node_modules\hardhat\src\builtin-tasks\compile.ts:504:15)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at Environment._runTaskDefinition (E:\mycryptoproject\node_modules\hardhat\src\internal\core\runtime-environment.ts:351:14)
+    at Environment.run (E:\mycryptoproject\node_modules\hardhat\src\internal\core\runtime-environment.ts:184:14)
+    at SimpleTaskDefinition.action (E:\mycryptoproject\node_modules\hardhat\src\builtin-tasks\compile.ts:1433:63)
+    at Environment._runTaskDefinition (E:\mycryptoproject\node_modules\hardhat\src\internal\core\runtime-environment.ts:351:14)
+    at Environment.run (E:\mycryptoproject\node_modules\hardhat\src\internal\core\runtime-environment.ts:184:14)
+    at SimpleTaskDefinition.action (E:\mycryptoproject\node_modules\hardhat\src\builtin-tasks\compile.ts:1513:7)
+    at Environment._runTaskDefinition (E:\mycryptoproject\node_modules\hardhat\src\internal\core\runtime-environment.ts:351:14)
+    at Environment.run (E:\mycryptoproject\node_modules\hardhat\src\internal\core\runtime-environment.ts:184:14)

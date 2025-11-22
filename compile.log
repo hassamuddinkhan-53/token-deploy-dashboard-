@@ -1,0 +1,26 @@
+[dotenv@17.2.3] injecting env (4) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+[31mAn unexpected error occurred:[39m
+
+FileSystemAccessError: EPERM: operation not permitted, scandir 'E:\mycryptoproject\artifacts\contracts\MockERC20.sol'
+    at readdir (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:203:11)
+    at getAllFilesMatching (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:76:15)
+    at E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:83:23
+    at async Promise.all (index 0)
+    at getAllFilesMatching (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:78:19)
+    at E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:83:23
+    at async Promise.all (index 0)
+    at getAllFilesMatching (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:78:19)
+    at Artifacts.getArtifactPaths (E:\mycryptoproject\node_modules\hardhat\src\internal\artifacts.ts:157:19)
+    at invalidateCacheMissingArtifacts (E:\mycryptoproject\node_modules\hardhat\src\builtin-tasks\compile.ts:1528:25)
+
+    Caused by: Error: EPERM: operation not permitted, scandir 'E:\mycryptoproject\artifacts\contracts\MockERC20.sol'
+        at Object.readdir (node:internal/fs/promises:957:18)
+        at readdir (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:191:12)
+        at getAllFilesMatching (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:76:15)
+        at E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:83:23
+        at async Promise.all (index 0)
+        at getAllFilesMatching (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:78:19)
+        at E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:83:23
+        at async Promise.all (index 0)
+        at getAllFilesMatching (E:\mycryptoproject\node_modules\hardhat\src\internal\util\fs-utils.ts:78:19)
+        at Artifacts.getArtifactPaths (E:\mycryptoproject\node_modules\hardhat\src\internal\artifacts.ts:157:19)

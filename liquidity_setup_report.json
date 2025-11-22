@@ -1,0 +1,56 @@
+[
+  {
+    "pair": "lol-mmm",
+    "pairAddress": "0x2771A8b33E95b3bE5Ca014e3FC6B51dEb93AFB5c",
+    "liquidityTx": "0xb43425cb1d0021a8eff2f9d8842ac0d74ae77ffd0ab2d346f016b6e889964fbf",
+    "reserves": {
+      "lol": "2000.0",
+      "mmm": "2000.0"
+    }
+  },
+  {
+    "pair": "lol-jii",
+    "pairAddress": "0x7d472535c46f655d5A5856B00c10F5650BD83E00",
+    "liquidityTx": "0x2ca17a3f02f927893165c108d6681f98a851af06ccf5fb9e7b95f292a6513365",
+    "reserves": {
+      "lol": "2000.0",
+      "jii": "2000.0"
+    }
+  },
+  {
+    "pair": "lol-MTK",
+    "pairAddress": "0xcC4C150169fb39ab3Eae84B4Ad0c6aCcaFFC6890",
+    "liquidityTx": "0x15a7445962663895ed1086883d632310d114cacccdc81d77fc742698d2c665d0",
+    "reserves": {
+      "lol": "2000.0",
+      "MTK": "2000.0"
+    }
+  },
+  {
+    "pair": "mmm-jii",
+    "pairAddress": "0x0EC8F626478129F75bdCD852fe69BD902F8285AB",
+    "liquidityTx": "0x27da5b71b9ec09a8406b79be4231b9685c63c883221f70df1f01b1f2ec4d5b16",
+    "reserves": {
+      "mmm": "2000.0",
+      "jii": "2000.0"
+    }
+  },
+  {
+    "pair": "mmm-MTK",
+    "pairAddress": "0x8cbB0306555Ca0702Db9536B1226DfDB725c9A9f",
+    "liquidityTx": "0x15af103f664c36e73f8d56e868ad090cd0ee3b46677bb5322137d061fb57724d",
+    "reserves": {
+      "mmm": "2000.0",
+      "MTK": "2000.0"
+    }
+  },
+  {
+    "pair": "jii-MTK",
+    "pairAddress": "0x47fECd4F7c1905E559c09b5f561cb1b50fA669aa",
+    "liquidityTx": "0xb5809b289069aa66ff3e4ec4df6afce368db82db4de9791509082ded7adb7723",
+    "reserves": {
+      "jii": "2000.0",
+      "MTK": "2000.0"
+    }
+  }
+]

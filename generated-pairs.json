@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-11-21T16:54:13.699Z",
+  "totalPairs": 1,
+  "pairs": [
+    {
+      "id": 1,
+      "tokenA": "0xYourFirstTokenAddress",
+      "tokenB": "0xYourSecondTokenAddress",
+      "type": "internal",
+      "externalSymbol": null
+    }
+  ]
+}
