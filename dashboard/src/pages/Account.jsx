@@ -54,7 +54,7 @@ export default function Account() {
     try {
       tks = JSON.parse(localStorage.getItem('deployed_tokens_v1') || '[]');
     } catch { }
-    const liveTokens = tks; // include ETH
+    const liveTokens = []; // Start with empty array
     const meta = {};
     for (const t of tks) {
       try {
@@ -227,7 +227,12 @@ export default function Account() {
             <TokenBalance
               account={account}
               ethBalance={ethBalances[account]}
-              tokens={tokens.map(t => ({ ...t, symbol: tokenMeta[t.address]?.symbol }))}
+              tokens={tokens.map(t => ({
+                ...t,
+                symbol: tokenMeta[t.address]?.symbol,
+                name: tokenMeta[t.address]?.name || t.name,
+                logoURI: t.logoURI
+              }))}
               balances={balances[account]}
               tokenMeta={tokenMeta}
             />
@@ -257,7 +262,7 @@ export default function Account() {
           {allAccounts.filter(a => a !== account).length > 0 && (
             <div className="glass-panel rounded-2xl p-6 mb-6">
               <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary-500"></span>
+                <span className="w-2 h-2 rounded-full bg-primary-500 "></span>
                 Other Accounts
               </h3>
               <div className="overflow-x-auto">

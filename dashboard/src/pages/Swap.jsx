@@ -14,12 +14,11 @@ export default function Swap() {
   const { provider, connectWallet, isConnected, account, isSepoliaNetwork } = useWeb3()
   const {
     tokenA, tokenB, amountA, amountB, priceLoading, txHash, status, allowance, isApproving,
-    setTokenA, setTokenB, handleAmountAChange, handleAmountBChange, switchTokens, getTokenBalance, executeSwap, approveToken
+    setTokenA, setTokenB, handleAmountAChange, handleAmountBChange, switchTokens, getTokenBalance, executeSwap, approveToken,
+    balanceA, balanceB
   } = useSwap()
 
   const [tokens, setTokens] = useState([])
-  const [balanceA, setBalanceA] = useState('0')
-  const [balanceB, setBalanceB] = useState('0')
   const [onSepolia, setOnSepolia] = useState(true)
 
   // Check Sepolia network
@@ -59,21 +58,6 @@ export default function Swap() {
     if (!tokenA && arr[0]) setTokenA(arr[0].address)
     if (!tokenB && arr[1]) setTokenB(arr[1].address)
   }, [])
-
-  // Live balance updates
-  useEffect(() => {
-    const updateBalances = async () => {
-      if (tokenA) getTokenBalance(tokenA).then(b => setBalanceA(b || '0'))
-      else setBalanceA('0')
-
-      if (tokenB) getTokenBalance(tokenB).then(b => setBalanceB(b || '0'))
-      else setBalanceB('0')
-    }
-
-    updateBalances()
-    const interval = setInterval(updateBalances, 10000) // Poll every 10s
-    return () => clearInterval(interval)
-  }, [tokenA, tokenB, getTokenBalance, status])
 
   return (
     <div className="flex justify-center pt-10">
@@ -157,37 +141,26 @@ export default function Swap() {
 
               {/* Action Button */}
               <div className="mt-4">
-                {allowance === '0' || (allowance && parseFloat(allowance) < parseFloat(amountA || '0')) ? (
-                  <button
-                    onClick={approveToken}
-                    disabled={isApproving || !tokenA || !amountA || !onSepolia}
-                    className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 ${isApproving || !tokenA || !amountA || !onSepolia
-                        ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
-                        : 'glass-button'
-                      }`}
-                  >
-                    {isApproving ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <RefreshCw size={20} className="animate-spin" /> Approving...
-                      </span>
-                    ) : 'Approve Token'}
-                  </button>
-                ) : (
-                  <button
-                    onClick={executeSwap}
-                    disabled={!tokenA || !tokenB || !amountA || status === 'pending' || !onSepolia}
-                    className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 ${!tokenA || !tokenB || !amountA || status === 'pending' || !onSepolia
-                        ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
-                        : 'glass-button'
-                      }`}
-                  >
-                    {status === 'pending' ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <RefreshCw size={20} className="animate-spin" /> Swapping...
-                      </span>
-                    ) : 'Swap'}
-                  </button>
-                )}
+                <button
+                  onClick={executeSwap}
+                  disabled={!tokenA || !tokenB || !amountA || status === 'pending' || status === 'approving' || !onSepolia}
+                  className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 ${!tokenA || !tokenB || !amountA || status === 'pending' || status === 'approving' || !onSepolia
+                    ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                    : 'glass-button'
+                    }`}
+                >
+                  {status === 'approving' || isApproving ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <RefreshCw size={20} className="animate-spin" /> Approving...
+                    </span>
+                  ) : status === 'pending' ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <RefreshCw size={20} className="animate-spin" /> Swapping...
+                    </span>
+                  ) : (
+                    allowance === '0' || (allowance && parseFloat(allowance) < parseFloat(amountA || '0')) ? 'Approve & Swap' : 'Swap'
+                  )}
+                </button>
               </div>
 
               {/* Status Messages */}

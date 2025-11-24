@@ -26,18 +26,44 @@ export default function TokenBalance({ account, ethBalance, tokens, balances, to
           </div>
           <span className="font-bold text-white">{parseFloat(ethBalance || '0').toFixed(4)}</span>
         </div>
-
+        {console.log(tokens)}
         {tokens.map((token) => (
           <div key={token.address} className="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg shadow-primary-500/20">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              {/* Token Logo or Placeholder */}
+              {token.logoURI ? (
+                <img
+                  src={token.logoURI}
+                  alt={tokenMeta[token.address]?.symbol || 'Token'}
+                  className="w-8 h-8 rounded-full flex-shrink-0"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              <div
+                className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center shadow-lg shadow-primary-500/20 flex-shrink-0"
+                style={{ display: token.logoURI ? 'none' : 'flex' }}
+              >
                 <span className="text-[10px] font-bold text-white">
-                  {(tokenMeta[token.address]?.symbol || 'TK').slice(0, 2)}
+                  {(tokenMeta[token.address]?.symbol || 'Token').slice(0, 2)}
                 </span>
               </div>
-              <span className="font-medium text-slate-200">{tokenMeta[token.address]?.symbol || 'Token'}</span>
+
+              {/* Token Symbol */}
+              <span className="font-bold text-white flex-shrink-0">
+                {token.name}
+              </span>
+
+              {/* Token Name */}
+              <span className="font-medium text-slate-400 truncate">
+                {tokenMeta[token.address]?.name || ''}
+              </span>
             </div>
-            <span className="font-bold text-white">
+
+            {/* Balance */}
+            <span className="font-bold text-white flex-shrink-0 ml-3">
               {parseFloat((balances && balances[token.address]) || '0').toFixed(4)}
             </span>
           </div>
