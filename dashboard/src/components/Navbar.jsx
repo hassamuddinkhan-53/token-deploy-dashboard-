@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useWeb3 } from '../context/Web3Context'
-import { LayoutDashboard, Send, Wallet, ArrowRightLeft, History, Rocket, AlertTriangle, LogOut } from 'lucide-react'
+import { LayoutDashboard, Send, Wallet, ArrowRightLeft, History, Rocket, AlertTriangle, LogOut, Activity } from 'lucide-react'
 
 export default function Navbar({ onNavigate, currentRoute }) {
   const { connectWallet, disconnect, account, isConnected, rpcUrl, switchRpc, getEthBalance, networkName } = useWeb3()
@@ -55,6 +55,8 @@ export default function Navbar({ onNavigate, currentRoute }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'swap', label: 'Swap', icon: ArrowRightLeft },
+    { id: 'liquidity', label: 'Liquidity', icon: Send },
+    { id: 'liquidity-manager', label: 'Auto Pool', icon: Activity },
     { id: 'manage', label: 'Manage', icon: Wallet },
     { id: 'deploy', label: 'Deploy', icon: Rocket },
     { id: 'account', label: 'Account', icon: Wallet },

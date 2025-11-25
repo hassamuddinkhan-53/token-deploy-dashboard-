@@ -4,6 +4,8 @@ import Dashboard from './pages/Dashboard'
 import DeployToken from './pages/DeployToken'
 import ManageTokens from './pages/ManageTokens'
 import Swap from './pages/Swap'
+import AddLiquidity from './pages/AddLiquidity'
+import LiquidityManager from './pages/LiquidityManager'
 import Account from './pages/Account'
 import Transactions from './pages/Transactions'
 
@@ -22,6 +24,10 @@ export default function App() {
         return <Transactions />
       case 'swap':
         return <Swap />
+      case 'liquidity':
+        return <AddLiquidity />
+      case 'liquidity-manager':
+        return <LiquidityManager />
       default:
         return <Dashboard />
     }

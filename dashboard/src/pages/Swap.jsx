@@ -14,12 +14,13 @@ export default function Swap() {
   const { provider, connectWallet, isConnected, account, isSepoliaNetwork } = useWeb3()
   const {
     tokenA, tokenB, amountA, amountB, priceLoading, txHash, status, allowance, isApproving,
-    setTokenA, setTokenB, handleAmountAChange, handleAmountBChange, switchTokens, getTokenBalance, executeSwap, approveToken,
+    setTokenA, setTokenB, handleAmountAChange, handleAmountBChange, switchTokens, getTokenBalance, executeSwap,
     balanceA, balanceB
   } = useSwap()
 
   const [tokens, setTokens] = useState([])
   const [onSepolia, setOnSepolia] = useState(true)
+  const [liquidityError, setLiquidityError] = useState(false)
 
   // Check Sepolia network
   useEffect(() => {
@@ -59,6 +60,15 @@ export default function Swap() {
     if (!tokenB && arr[1]) setTokenB(arr[1].address)
   }, [])
 
+  // Detect liquidity error
+  useEffect(() => {
+    if (tokenA && tokenB && amountA && !amountB && !priceLoading) {
+      setLiquidityError(true)
+    } else {
+      setLiquidityError(false)
+    }
+  }, [tokenA, tokenB, amountA, amountB, priceLoading])
+
   return (
     <div className="flex justify-center pt-10">
       <div className="w-full max-w-md">
@@ -73,6 +83,16 @@ export default function Swap() {
           </div>
 
           <WarningBanner show={!onSepolia} message="Please switch your wallet to the Sepolia testnet to swap tokens." />
+
+          {liquidityError && (
+            <div className="mb-4 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl flex items-start gap-3">
+              <AlertCircle size={20} className="text-yellow-400 mt-0.5" />
+              <div className="flex-1">
+                <p className="font-bold text-yellow-400 text-sm">No Liquidity Available</p>
+                <p className="text-xs text-yellow-400/70 mt-1">This trading pair has no liquidity. Please add liquidity first.</p>
+              </div>
+            </div>
+          )}
 
           {!isConnected ? (
             <div className="text-center py-12 px-4">
